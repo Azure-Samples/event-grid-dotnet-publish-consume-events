@@ -1,14 +1,13 @@
 # Project Name
 
-(short, 1-3 sentenced, description of the project)
+This contains C# samples for publishing events to Azure Event Grid and consuming events from Azure Event Grid.
 
 ## Features
 
-This project framework provides the following features:
+This sample demonstrates the following features:
 
-* Feature 1
-* Feature 2
-* ...
+* How to publish events to Azure Event Grid?
+* How to consume events delivered by Azure Event Grid?
 
 ## Getting Started
 
@@ -16,9 +15,7 @@ This project framework provides the following features:
 
 (ideally very short, if any)
 
-- OS
-- Library version
-- ...
+- .NET Framework 4.5 or higher
 
 ### Installation
 
