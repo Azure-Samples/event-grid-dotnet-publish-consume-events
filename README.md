@@ -4,51 +4,32 @@ This contains C# samples for publishing events to Azure Event Grid and consuming
 
 ## Features
 
-This sample demonstrates the following features:
+These samples demonstrates the following features:
 
-* How to publish events to Azure Event Grid?
-* How to consume events delivered by Azure Event Grid?
+* How to publish events to Azure Event Grid.
+* How to consume events delivered by Azure Event Grid.
+
+The samples use the Event Grid data plane SDK (Microsoft.Azure.EventGrid).
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
 - .NET Framework 4.5 or higher
 
 ### Installation
 
-(ideally very short)
+- Visual Studio 2017 Version 15.5 or later, with "Azure Development" workload enabled.
+- Azure Functions Extension in Visual Studio 2017.
 
-- npm install [package name]
-- mvn install
-- ...
+ Clone this repository onto your local machine. You will find two samples, one that shows how to publish events to Azure Event Grid, and one that shows how to consume events from Azure Event Grid. Compile the samples inside Visual Studio, the required Microsoft Azure Event Grid SDK components will automatically be downloaded from nuget.org.
 
-### Quickstart
-(Add steps to get up and running quickly)
+ The publishing sample is a regular Console application. The consuming sample is an Azure Functions template based project. You can build this in Visual Studio, and to publish this Function to the cloud, please refer to the steps described in https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs.
 
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
 
 ## Resources
 
 (Any additional resources or related projects)
 
-- Link to supporting information
-- Link to similar sample
-- ...
+- https://docs.microsoft.com/en-us/azure/event-grid/overview
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs
