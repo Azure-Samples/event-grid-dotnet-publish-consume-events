@@ -1,4 +1,4 @@
-# Project Name
+# Microsoft Azure Event Grid Publish/Consume Samples for C#
 
 This contains C# samples for publishing events to Azure Event Grid and consuming events from Azure Event Grid.
 
