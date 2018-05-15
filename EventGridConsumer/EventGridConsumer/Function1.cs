@@ -9,6 +9,10 @@ using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+// This captures the schema of the "Data" portion of an EventGridEvent for a subscription validation event.
+// For a HTTP trigger based Azure function, the webhook implementation should echo this code as part of the 
+// validation response. For situations where webhooks cannot programmatically provide a validation response,
+// a GET on the validationUrl can be used to manually complete the event subscription validation handshake.
 class SubscriptionValidationEventData
 {
     public string ValidationCode { get; set; }
@@ -16,11 +20,13 @@ class SubscriptionValidationEventData
     public string ValidationUrl { get; set; }
 }
 
+// This captures the schema of the event subscription validation response.
 class SubscriptionValidationResponse
 {
     public string ValidationResponse { get; set; }
 }
 
+// This captures the "Data" portion of an EventGridEvent on a custom topic
 class ContosoItemReceivedEventData
 {
     public string ItemSku { get; set; }
@@ -50,19 +56,22 @@ namespace EventGridConsumer
                 if (string.Equals(eventGridEvent.EventType, SubscriptionValidationEvent, StringComparison.OrdinalIgnoreCase))
                 {
                     var eventData = dataObject.ToObject<SubscriptionValidationEventData>();
-                    log.Info($"Got SubscriptionValidation event data, validation code: {eventData.ValidationCode}, topic: {eventGridEvent.Topic}");
-                    // Do any additional validation (as required) and then return back the below response
+                    log.Info($"Got SubscriptionValidation event data, validationCode: {eventData.ValidationCode},  validationUrl: {eventData.ValidationUrl}, topic: {eventGridEvent.Topic}");
+                    // Do any additional validation (as required) such as validating that the Azure resource ID of the topic matches
+                    // the expected topic and then return back the below response
                     var responseData = new SubscriptionValidationResponse();
                     responseData.ValidationResponse = eventData.ValidationCode;
                     return req.CreateResponse(HttpStatusCode.OK, responseData);
                 }
                 else if (string.Equals(eventGridEvent.EventType, StorageBlobCreatedEvent, StringComparison.OrdinalIgnoreCase))
                 {
+                    // Deserialize the data portion of the event into StorageBlobCreatedEventData
                     var eventData = dataObject.ToObject<StorageBlobCreatedEventData>();
                     log.Info($"Got BlobCreated event data, blob URI {eventData.Url}");
                 }
                 else if (string.Equals(eventGridEvent.EventType, CustomTopicEvent, StringComparison.OrdinalIgnoreCase))
                 {
+                    // Deserialize the data portion of the event into ContosoItemReceivedEventData
                     var eventData = dataObject.ToObject<ContosoItemReceivedEventData>();
                     log.Info($"Got ContosoItemReceived event data, item SKU {eventData.ItemSku}");
                 }
