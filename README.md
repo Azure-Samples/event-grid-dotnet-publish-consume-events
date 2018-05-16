@@ -24,8 +24,11 @@ The samples use the Event Grid data plane SDK (Microsoft.Azure.EventGrid).
 
  Clone this repository onto your local machine. You will find two samples, one that shows how to publish events to Azure Event Grid, and one that shows how to consume events from Azure Event Grid. Compile the samples inside Visual Studio, the required Microsoft Azure Event Grid SDK components will automatically be downloaded from nuget.org.
 
- The publishing sample is a regular Console application. The consuming sample is an Azure Functions template based project. You can build this in Visual Studio, and to publish this Function to the cloud, please refer to the steps described in https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs.
+ ### Running the Samples
 
+ 1. EventGridPublisher: This sample demonstrates how to publish events to an Azure Event Grid topic. This is a regular Console application. Before running this sample, you will need to create an Event Grid topic using the steps described at https://docs.microsoft.com/en-us/azure/event-grid/scripts/event-grid-cli-create-custom-topic and then replace the topic-name, region, and topic-key fields in the sample with the name of your topic, location where you created the topic, and the key of the topic respectively. Once you have set these values, you can run this application from Visual Studio to publish events to this topic.
+
+ 2. EventGridConsumer: This sample demonstrates how to consume events delivered by Azure Event Grid. This sample is an Azure Functions based project. You can build this in Visual Studio. To publish this Function to the cloud, please refer to the steps described in https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs. Once you have published this as an Azure function, you can create an event subscription and provide this Azure function as the endpoint for your event subscription. https://docs.microsoft.com/en-us/azure/event-grid/scripts/event-grid-cli-subscribe-custom-topic describes how to create an event subscription.
 
 ## Resources
 
