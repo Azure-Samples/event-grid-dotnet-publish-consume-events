@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5CA5B1E8-6ED6-450A-885C-E1159087E3E8}</ProjectGuid>
+    <ProjectGuid>{7F21C865-7F26-4470-A80E-098DEC8391E9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>EventGridManageTopics</RootNamespace>
-    <AssemblyName>EventGridManageTopics</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>EventGridManageEventSubscriptions</RootNamespace>
+    <AssemblyName>EventGridManageEventSubscriptions</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

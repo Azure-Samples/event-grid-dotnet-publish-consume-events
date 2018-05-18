@@ -23,15 +23,15 @@ using Microsoft.Azure.Management.ResourceManager;
 using Microsoft.Azure.Management.ResourceManager.Models;
 using Microsoft.Rest;
 
-namespace EventGridManagementTopics
+namespace EventGridManageTopicsAndEventSubscriptions
 {
     /// <summary>
-    /// Azure EventGrid Management Sample - Demonstrate how to create and manage EventGrid topics using EventGrid Management SDK.
+    /// Azure EventGrid Management Sample - Demonstrate how to create and manage EventGrid eventsubscriptions using EventGrid Management SDK.
     ///
     /// Documentation References:
     /// - EventGrid .NET SDK documentation - https://docs.microsoft.com/en-us/dotnet/api/overview/azure/eventgrid?view=azure-dotnet
     /// </summary>
-    public class EventGridManagementSample
+    public class Program
     {
         // Enter the Azure subscription ID you want to use for this sample.
         const string SubscriptionId = "replace-with-your-subscription-id";
@@ -41,6 +41,11 @@ namespace EventGridManagementTopics
 
         // Using a random topic name. Optionally, replace this with a topic name of your choice.
         static readonly string TopicName = "topicsample" + Guid.NewGuid().ToString().Substring(0, 8);
+
+        // Replace the endpoint URL with the URL of your Azure function.
+        // See the EventGridConsumer sample for a sample of an Azure function that can handle EventGridEvents
+        // Publish the EventGridConsumer sample as an Azure function and use the URL of that function for the below.
+        const string EndpointUrl = "replace-with-your-Azure function-URL";
 
         // To run the sample, you must first create an Azure service principal. To create the service principal, follow one of these guides:
         // Azure Portal: https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/)
@@ -53,7 +58,7 @@ namespace EventGridManagementTopics
         const string Password = "replace-with-your-application-password";
         const string TenantId = "replace-with-your-tenant-id";
 
-        // These values are used by the sample as defaults to create a new EventGrid topic.
+        const string EventSubscriptionName = "EventSubscription1";
         const string DefaultLocation = "westus";
 
         //The following method will enable you to use the token to create credentials
@@ -74,10 +79,10 @@ namespace EventGridManagementTopics
 
         public static void Main(string[] args)
         {
-            PerformTopicOperations().Wait();
+            PerformTopicAndEventSubscriptionOperations().Wait();
         }
 
-        static async Task PerformTopicOperations()
+        static async Task PerformTopicAndEventSubscriptionOperations()
         {
             string token = await GetAuthorizationHeaderAsync();
             TokenCredentials credential = new TokenCredentials(token);
@@ -103,20 +108,15 @@ namespace EventGridManagementTopics
                 // Create a new Event Grid topic in a resource group
                 await CreateEventGridTopicAsync(ResourceGroupName, TopicName, eventGridManagementClient);
 
-                // Get a list of EventGrid topics within a specific resource group
-                IEnumerable<Topic> topicsInResourceGroup = await eventGridManagementClient.Topics.ListByResourceGroupAsync(ResourceGroupName);
-
-                // Get all the EventGrid topics for a given subscription
-                IEnumerable<Topic> topicsInSubscription = await eventGridManagementClient.Topics.ListBySubscriptionAsync();
-
-                // Get the keys for a given EventGrid topic
+                // Get the keys for the topic
                 TopicSharedAccessKeys topicKeys = await eventGridManagementClient.Topics.ListSharedAccessKeysAsync(ResourceGroupName, TopicName);
-
                 Console.WriteLine($"The key1 value of topic {TopicName} is: {topicKeys.Key1}");
-                Console.WriteLine($"The key2 value of topic {TopicName} is: {topicKeys.Key2}");
 
-                // Regenerate a key for a topic
-                TopicSharedAccessKeys newTopicKeys = await eventGridManagementClient.Topics.RegenerateKeyAsync(ResourceGroupName, TopicName, "key1");
+                // Create an event subscription
+                await CreateEventGridEventSubscriptionAsync(ResourceGroupName, TopicName, EventSubscriptionName, eventGridManagementClient, EndpointUrl);
+
+                // Delete the event subscription
+                await DeleteEventGridEventSubscriptionAsync(ResourceGroupName, TopicName, EventSubscriptionName, eventGridManagementClient);
 
                 // Delete an EventGrid topic with the given topic name and a resource group
                 await DeleteEventGridTopicAsync(ResourceGroupName, TopicName, eventGridManagementClient);
@@ -152,7 +152,7 @@ namespace EventGridManagementTopics
 
         static async Task CreateEventGridTopicAsync(string rgname, string topicName, EventGridManagementClient EventGridMgmtClient)
         {
-            Console.WriteLine("Creating a EventGrid topic...");
+            Console.WriteLine("Creating an EventGrid topic...");
 
             Dictionary<string, string> defaultTags = new Dictionary<string, string>
             {
@@ -172,11 +172,49 @@ namespace EventGridManagementTopics
             Console.WriteLine("EventGrid topic created with name " + createdTopic.Name);
         }
 
+        static async Task CreateEventGridEventSubscriptionAsync(string rgname, string topicName, string eventSubscriptionName, EventGridManagementClient eventGridMgmtClient, string endpointUrl)
+        {
+            Topic topic = await eventGridMgmtClient.Topics.GetAsync(rgname, topicName);
+            string eventSubscriptionScope = topic.Id;
+
+            Console.WriteLine($"Creating an event subscription to topic {topicName}...");
+
+            EventSubscription eventSubscription = new EventSubscription()
+            {
+                Destination = new WebHookEventSubscriptionDestination()
+                {
+                    EndpointUrl = endpointUrl
+                },
+                // The below are all optional settings
+                EventDeliverySchema = EventDeliverySchema.EventGridSchema,
+                Filter = new EventSubscriptionFilter()
+                {
+                    // By default, "All" event types are included
+                    IsSubjectCaseSensitive = false,
+                    SubjectBeginsWith = "",
+                    SubjectEndsWith = ""
+                }
+            };
+
+            EventSubscription createdEventSubscription = await eventGridMgmtClient.EventSubscriptions.CreateOrUpdateAsync(eventSubscriptionScope, eventSubscriptionName, eventSubscription);
+            Console.WriteLine("EventGrid event subscription created with name " + createdEventSubscription.Name);
+        }
+
         static async Task DeleteEventGridTopicAsync(string rgname, string topicName, EventGridManagementClient EventGridMgmtClient)
         {
-            Console.WriteLine("Deleting a EventGrid topic...");
+            Console.WriteLine($"Deleting EventGrid topic {topicName} in resource group {rgname}");
             await EventGridMgmtClient.Topics.DeleteAsync(rgname, topicName);
             Console.WriteLine("EventGrid topic " + topicName + " deleted");
+        }
+
+        static async Task DeleteEventGridEventSubscriptionAsync(string rgname, string topicName, string eventSubscriptionName, EventGridManagementClient eventGridMgmtClient)
+        {
+            Console.WriteLine($"Deleting event subscription {eventSubscriptionName} created for topic {topicName} in resource group {rgname}...");
+
+            Topic topic = await eventGridMgmtClient.Topics.GetAsync(rgname, topicName);
+            string eventSubscriptionScope = topic.Id;
+            await eventGridMgmtClient.EventSubscriptions.DeleteAsync(eventSubscriptionScope, eventSubscriptionName);
+            Console.WriteLine("Event subcription " + eventSubscriptionName + " deleted");
         }
     }
 }

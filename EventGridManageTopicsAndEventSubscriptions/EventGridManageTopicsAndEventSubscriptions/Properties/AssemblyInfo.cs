@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EventGridManagementCreateTopic")]
+[assembly: AssemblyTitle("EventGridManageEventSubscriptions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
-[assembly: AssemblyProduct("EventGridManagementCreateTopic")]
+[assembly: AssemblyProduct("EventGridManageEventSubscriptions")]
 [assembly: AssemblyCopyright("Copyright © Microsoft Corporation 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5ca5b1e8-6ed6-450a-885c-e1159087e3e8")]
+[assembly: Guid("7f21c865-7f26-4470-a80e-098dec8391e9")]
 
 // Version information for an assembly consists of the following four values:
 //
