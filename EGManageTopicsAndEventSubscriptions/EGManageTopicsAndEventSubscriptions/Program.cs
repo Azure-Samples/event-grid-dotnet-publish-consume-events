@@ -1,4 +1,4 @@
-// 
+﻿// 
 // Copyright (c) Microsoft.  All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ using Microsoft.Azure.Management.ResourceManager;
 using Microsoft.Azure.Management.ResourceManager.Models;
 using Microsoft.Rest;
 
-namespace EventGridManageTopicsAndEventSubscriptions
+namespace EGManageTopicsAndEventSubscriptions
 {
     /// <summary>
     /// Azure EventGrid Management Sample - Demonstrate how to create and manage EventGrid eventsubscriptions using EventGrid Management SDK.

@@ -1,4 +1,4 @@
-// 
+﻿// 
 // Copyright (c) Microsoft.  All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,10 +20,9 @@ using Microsoft.Azure.Management.EventGrid;
 using Microsoft.Azure.Management.EventGrid.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Azure.Management.ResourceManager;
-using Microsoft.Azure.Management.ResourceManager.Models;
 using Microsoft.Rest;
 
-namespace EventGridManageStorageEventSubscriptions
+namespace EGManageStorageEventSubscriptions
 {
     /// <summary>
     /// Azure EventGrid Management Sample - Demonstrate how to create and manage EventGrid event subscriptions to a storage account
