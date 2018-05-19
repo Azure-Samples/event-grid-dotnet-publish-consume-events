@@ -3,8 +3,8 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES 
+// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES
 // OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 //----------------------------------------------------------------------------------
 // The example companies, organizations, products, domain names,
@@ -32,7 +32,7 @@ namespace EventGridPublisher
     {
         static void Main(string[] args)
         {
-            // TODO: Enter values for <topic-name> and <region> 
+            // TODO: Enter values for <topic-name> and <region>
             string topicEndpoint = "https://<topic-name>.<region>-1.eventgrid.azure.net/api/events";
 
             // TODO: Enter value for <topic-key>
