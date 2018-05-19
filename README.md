@@ -25,7 +25,8 @@ The above three samples use the Event Grid management plane SDK (Microsoft.Azure
 
 ### Prerequisites
 
-- .NET Framework 4.5.2 or higher
+- .NET Framework 4.5.2 or higher (for EventGridConsumer which is based on Azure Functions V1 Runtime)
+- .NET Core 2.0 or higher (for all samples except EventGridConsumer)
 
 ### Installation
 
