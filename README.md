@@ -1,3 +1,9 @@
+---
+services: event-grid
+platforms: dotnet
+author: kalyanaj
+---
+
 # Microsoft Azure Event Grid Publish/Consume Samples for C#
 
 This contains C# samples for publishing events to Azure Event Grid and consuming events from Azure Event Grid. It also contains a set of management samples that demonstrates how to manage topics and event subscriptions.
