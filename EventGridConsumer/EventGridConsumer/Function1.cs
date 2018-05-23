@@ -25,23 +25,6 @@ using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-// This captures the schema of the "Data" portion of an EventGridEvent for a subscription validation event.
-// For a HTTP trigger based Azure function, the webhook implementation should echo this code as part of the 
-// validation response. For situations where webhooks cannot programmatically provide a validation response,
-// a GET on the validationUrl can be used to manually complete the event subscription validation handshake.
-class SubscriptionValidationEventData
-{
-    public string ValidationCode { get; set; }
-
-    public string ValidationUrl { get; set; }
-}
-
-// This captures the schema of the event subscription validation response.
-class SubscriptionValidationResponse
-{
-    public string ValidationResponse { get; set; }
-}
-
 // This captures the "Data" portion of an EventGridEvent on a custom topic
 class ContosoItemReceivedEventData
 {
