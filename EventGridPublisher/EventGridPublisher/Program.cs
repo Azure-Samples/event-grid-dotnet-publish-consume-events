@@ -22,10 +22,10 @@ using Newtonsoft.Json;
 
 namespace EventGridPublisher
 {
+    // This captures the "Data" portion of an EventGridEvent on a custom topic
     class ContosoItemReceivedEventData
     {
-        [JsonProperty(PropertyName = "itemUri")]
-        public string ItemUri { get; set; }
+        public string ItemSku { get; set; }
     }
 
     class Program
@@ -56,10 +56,10 @@ namespace EventGridPublisher
                 eventsList.Add(new EventGridEvent()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    EventType = "Contoso.Items.ItemReceivedEvent",
+                    EventType = "Contoso.Items.ItemReceived",
                     Data = new ContosoItemReceivedEventData()
                     {
-                        ItemUri = "ContosoSuperItemUri"
+                        ItemSku = "Contoso Item SKU #1"
                     },
                     EventTime = DateTime.Now,
                     Subject = "Door1",
