@@ -25,6 +25,7 @@ namespace EventGridPublisher
     // This captures the "Data" portion of an EventGridEvent on a custom topic
     class ContosoItemReceivedEventData
     {
+        [JsonProperty(PropertyName = "itemSku")]
         public string ItemSku { get; set; }
     }
 
