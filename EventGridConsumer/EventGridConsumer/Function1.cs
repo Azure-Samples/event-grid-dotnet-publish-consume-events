@@ -28,6 +28,7 @@ using Newtonsoft.Json.Linq;
 // This captures the "Data" portion of an EventGridEvent on a custom topic
 class ContosoItemReceivedEventData
 {
+    [JsonProperty(PropertyName = "itemSku")]
     public string ItemSku { get; set; }
 }
 
@@ -45,6 +46,7 @@ namespace EventGridConsumer
             const string CustomTopicEvent = "Contoso.Items.ItemReceived";
 
             string requestContent = await req.Content.ReadAsStringAsync();
+            log.Info($"Received events: {requestContent}");
             EventGridEvent[] eventGridEvents = JsonConvert.DeserializeObject<EventGridEvent[]>(requestContent);
 
             foreach (EventGridEvent eventGridEvent in eventGridEvents)
