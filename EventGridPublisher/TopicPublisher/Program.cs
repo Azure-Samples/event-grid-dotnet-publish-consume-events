@@ -33,18 +33,20 @@ namespace EventGridPublisher
     {
         static void Main(string[] args)
         {
-            // TODO: Enter values for <topic-name> and <region>
-            string topicEndpoint = "https://<topic-name>.<region>-1.eventgrid.azure.net/api/events";
+            // TODO: Enter values for <topic-name> and <region>. You can find this topic endpoint value
+            // in the "Overview" section in the "Event Grid Topics" blade in Azure Portal.
+            string topicEndpoint = "https://<YOUR-TOPIC-NAME>.<REGION-NAME>-1.eventgrid.azure.net/api/events";
 
-            // TODO: Enter value for <topic-key>
-            string topicKey = "<topic-key>";
+            // TODO: Enter value for <topic-key>. You can find this in the "Access Keys" section in the
+            // "Event Grid Topics" blade in Azure Portal.
+            string topicKey = "<YOUR-TOPIC-KEY>";
 
             string topicHostname = new Uri(topicEndpoint).Host;
             TopicCredentials topicCredentials = new TopicCredentials(topicKey);
             EventGridClient client = new EventGridClient(topicCredentials);
 
             client.PublishEventsAsync(topicHostname, GetEventsList()).GetAwaiter().GetResult();
-            Console.Write("Published events to Event Grid.");
+            Console.Write("Published events to Event Grid topic.");
             Console.ReadLine();
         }
 
@@ -52,7 +54,7 @@ namespace EventGridPublisher
         {
             List<EventGridEvent> eventsList = new List<EventGridEvent>();
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 2; i++)
             {
                 eventsList.Add(new EventGridEvent()
                 {
