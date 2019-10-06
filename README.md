@@ -4,6 +4,7 @@ languages:
 - csharp
 products:
 - azure
+- azure-event-grid
 description: "This contains C# samples for publishing events to Azure Event Grid and consuming events from Azure Event Grid."
 urlFragment: event-grid-dotnet-publish-consume-events
 ---
