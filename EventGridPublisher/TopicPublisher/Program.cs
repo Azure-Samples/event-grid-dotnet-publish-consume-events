@@ -15,6 +15,7 @@
 //----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -23,9 +24,9 @@ using Newtonsoft.Json;
 namespace EventGridPublisher
 {
     // This captures the "Data" portion of an EventGridEvent on a custom topic
+    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     class ContosoItemReceivedEventData
     {
-        [JsonProperty(PropertyName = "itemSku")]
         public string ItemSku { get; set; }
     }
 
@@ -56,18 +57,19 @@ namespace EventGridPublisher
 
             for (int i = 1; i <= 2; i++)
             {
-                eventsList.Add(new EventGridEvent()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    EventType = "Contoso.Items.ItemReceived",
-                    Data = new ContosoItemReceivedEventData()
+                eventsList.Add(
+                    new EventGridEvent
                     {
-                        ItemSku = $"Contoso Item SKU #{i}"
-                    },
-                    EventTime = DateTime.UtcNow,
-                    Subject = $"Door{i}",
-                    DataVersion = "2.0"
-                });
+                        Id = Guid.NewGuid().ToString(),
+                        EventType = "Contoso.Items.ItemReceived",
+                        Data = new ContosoItemReceivedEventData()
+                        {
+                            ItemSku = $"Contoso Item SKU #{i}"
+                        },
+                        EventTime = DateTime.UtcNow,
+                        Subject = $"Door{i}",
+                        DataVersion = "2.0"
+                    });
             }
 
             return eventsList;
