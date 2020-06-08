@@ -15,6 +15,7 @@
 //----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -23,29 +24,29 @@ using Newtonsoft.Json;
 namespace EventGridPublisher
 {
     // This captures the "Data" portion of an EventGridEvent on a custom topic
+    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     class ContosoItemReceivedEventData
     {
-        [JsonProperty(PropertyName = "itemSku")]
         public string ItemSku { get; set; }
     }
 
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // TODO: Enter values for <topic-name> and <region>. You can find this topic endpoint value
             // in the "Overview" section in the "Event Grid Topics" blade in Azure Portal.
-            string topicEndpoint = "https://<YOUR-TOPIC-NAME>.<REGION-NAME>-1.eventgrid.azure.net/api/events";
+            var topicEndpoint = "https://<YOUR-TOPIC-NAME>.<REGION-NAME>-1.eventgrid.azure.net/api/events";
 
             // TODO: Enter value for <topic-key>. You can find this in the "Access Keys" section in the
             // "Event Grid Topics" blade in Azure Portal.
-            string topicKey = "<YOUR-TOPIC-KEY>";
+            var topicKey = "<YOUR-TOPIC-KEY>";
 
-            string topicHostname = new Uri(topicEndpoint).Host;
-            TopicCredentials topicCredentials = new TopicCredentials(topicKey);
-            EventGridClient client = new EventGridClient(topicCredentials);
+            var topicHostname = new Uri(topicEndpoint).Host;
+            var topicCredentials = new TopicCredentials(topicKey);
+            var client = new EventGridClient(topicCredentials);
 
-            client.PublishEventsAsync(topicHostname, GetEventsList()).GetAwaiter().GetResult();
+            await client.PublishEventsAsync(topicHostname, GetEventsList());
             Console.Write("Published events to Event Grid topic.");
             Console.ReadLine();
         }
@@ -54,20 +55,21 @@ namespace EventGridPublisher
         {
             List<EventGridEvent> eventsList = new List<EventGridEvent>();
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 1; i <= 2; i++)
             {
-                eventsList.Add(new EventGridEvent()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    EventType = "Contoso.Items.ItemReceived",
-                    Data = new ContosoItemReceivedEventData()
+                eventsList.Add(
+                    new EventGridEvent
                     {
-                        ItemSku = "Contoso Item SKU #1"
-                    },
-                    EventTime = DateTime.Now,
-                    Subject = "Door1",
-                    DataVersion = "2.0"
-                });
+                        Id = Guid.NewGuid().ToString(),
+                        EventType = "Contoso.Items.ItemReceived",
+                        Data = new ContosoItemReceivedEventData()
+                        {
+                            ItemSku = $"Contoso Item SKU #{i}"
+                        },
+                        EventTime = DateTime.UtcNow,
+                        Subject = $"Door{i}",
+                        DataVersion = "2.0"
+                    });
             }
 
             return eventsList;
