@@ -8,6 +8,10 @@ description: "This contains C# samples for publishing events to Azure Event Grid
 urlFragment: event-grid-dotnet-publish-consume-events
 ---
 
+***DISCLAIMER: The data plane samples in this repo are for Microsoft.Azure.EventGrid v3 (3.x). For the samples for Azure.Messaging.EventGrid v4 (4.x and above) please visit here. This repo is archived since v4 has become stable. For management plane samples, please visit [here](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/eventgrid/Azure.Messaging.EventGrid/samples/README.md).***
+
+***DISCLAIMER: If you are looking to migrate from Microsoft.Azure.EventGrid v3(3.x) to Azure.Messaging.EventGrid v4(4.x), we suggest getting started at the [migration guide](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/eventgrid/Azure.Messaging.EventGrid/MigrationGuide.md).***
+
 # Microsoft Azure Event Grid Publish/Consume Samples for C#
 
 This contains C# samples for publishing events to Azure Event Grid and consuming events from Azure Event Grid. It also contains a set of management samples that demonstrates how to manage topics and event subscriptions.
